@@ -6,14 +6,18 @@ import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -21,12 +25,17 @@ import javafx.stage.Stage;
 
 public class Window {
 
+	// Keep coordinates while dragging
+	protected static class Drag {
+		public static double X, Y;
+	}
+	
 	@FXML protected ResourceBundle resources;
-
   @FXML protected URL location;
   
   @FXML protected AnchorPane root;
   @FXML protected TextField address;
+  @FXML protected GridPane titlePanel;
   @FXML protected BorderPane appPanel;
   @FXML protected Pane hostPanel;
   @FXML protected Button buttonBack;
@@ -38,9 +47,37 @@ public class Window {
   protected RecentHistory myRecentHistory;
   protected Stage myStage;
   
+  private void addDraggableNode(final Node node) {
+  	node.setOnMousePressed(new EventHandler<MouseEvent>() {
+  		@Override
+  		public void handle(MouseEvent me) {
+  			if (me.getButton() != MouseButton.MIDDLE) {
+  				Window.Drag.X = me.getSceneX();
+  				Window.Drag.Y = me.getSceneY();
+  			}
+  		}
+  	});
+  	
+  	node.setOnMouseDragged(new EventHandler<MouseEvent>() {
+  		@Override
+  		public void handle(MouseEvent me) {
+  			if (me.getButton() != MouseButton.MIDDLE) {
+  				node.getScene().getWindow().setX(me.getScreenX() - Window.Drag.X);
+  				node.getScene().getWindow().setY(me.getScreenY() - Window.Drag.Y);
+  			}
+  		}
+  	});
+  }
+  
   @FXML
   protected void initialize() {
   	this.myRecentHistory = new RecentHistory();
+  	Window.Drag.X = Window.Drag.Y = 0;
+  	
+  }
+  
+  public void ready() {
+  	this.addDraggableNode(this.titlePanel);
   }
   
   protected boolean checkStage() {

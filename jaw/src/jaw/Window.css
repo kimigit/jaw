@@ -41,8 +41,8 @@
 }
 
 .toolbarPane {
-	-fx-background-color: linear-gradient(#fff 0%, #ddd 100%);
-	-fx-background-color: #e3e3e3;
+	-fx-background-color:
+        linear-gradient(rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(226,226,226,1) 100%);
 	-fx-padding: 5px;
 }
 

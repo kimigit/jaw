@@ -59,6 +59,7 @@ public class Main extends Application {
 	    stage.setScene(scene);
 	    
 	    fxmlController.maximize();
+	    fxmlController.ready();
 	    stage.show();
 	    
 		} catch (Exception e) {
