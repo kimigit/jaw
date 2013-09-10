@@ -1,0 +1,51 @@
+.root {
+	-fx-background-color: #fff;
+	-fx-font-family:  "Verdana";
+	-fx-border-color: #888;
+}
+
+#buttonBack {
+	-fx-background-image: url("images/back.png");
+	-fx-background-size: 24px;
+	-fx-background-position: 0;
+	-fx-background-repeat: no-repeat;
+	-fx-background-color: transparent;
+	-fx-cursor: hand;
+}
+
+#buttonClose {
+	-fx-background-image: url("images/close.png");
+	-fx-background-size: 24px;
+	-fx-background-position: 0;
+	-fx-background-repeat: no-repeat;
+	-fx-background-color: transparent;
+	-fx-cursor: hand;
+}
+
+#buttonMaximize {
+	-fx-background-image: url("images/maximize.png");
+	-fx-background-size: 24px;
+	-fx-background-position: 0;
+	-fx-background-repeat: no-repeat;
+	-fx-background-color: transparent;
+	-fx-cursor: hand;
+}
+
+#buttonMinimize {
+	-fx-background-image: url("images/minimize.png");
+	-fx-background-size: 24px;
+	-fx-background-position: 0;
+	-fx-background-repeat: no-repeat;
+	-fx-background-color: transparent;
+	-fx-cursor: hand;
+}
+
+.toolbarPane {
+	-fx-background-color: linear-gradient(#fff 0%, #ddd 100%);
+	-fx-background-color: #e3e3e3;
+	-fx-padding: 5px;
+}
+
+	.toolbarPane > #address {
+		-fx-font-size: 12px;
+	}

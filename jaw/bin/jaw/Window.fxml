@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+
+<AnchorPane fx:id="root" prefHeight="672.0" prefWidth="651.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="jaw.Window">
+  <children>
+    <BorderPane opacity="1.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <center>
+        <BorderPane opacity="1.0" prefHeight="200.0" prefWidth="200.0">
+          <center>
+            <BorderPane fx:id="appPanel" prefHeight="364.0" prefWidth="548.0" />
+          </center>
+          <top>
+            <GridPane alignment="CENTER" cache="true" cacheHint="QUALITY" disable="false" gridLinesVisible="false" hgap="0.0" prefHeight="-1.0" prefWidth="-1.0" styleClass="toolbarPane" vgap="0.0" BorderPane.alignment="CENTER">
+              <children>
+                <TextField fx:id="address" maxWidth="-1.0" minHeight="-1.0" onAction="#gotoUrl" prefHeight="24.0" prefWidth="-1.0" text="http://localhost/fxapp/hello.jar" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                  <GridPane.margin>
+                    <Insets />
+                  </GridPane.margin>
+                </TextField>
+                <Button fx:id="buttonBack" disable="true" mnemonicParsing="false" onMouseClicked="#goBack" prefHeight="24.0" prefWidth="24.0" text="" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
+                <Button fx:id="buttonSettings" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#openSettings" text="Settings" visible="false" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+              </children>
+              <columnConstraints>
+                <ColumnConstraints fillWidth="true" hgrow="NEVER" maxWidth="-1.0" minWidth="-1.0" prefWidth="32.0" />
+                <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
+              </columnConstraints>
+              <padding>
+                <Insets />
+              </padding>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+          </top>
+        </BorderPane>
+      </center>
+      <top>
+        <GridPane gridLinesVisible="false" prefHeight="-1.0" prefWidth="-1.0" BorderPane.alignment="CENTER_RIGHT">
+          <children>
+            <Button fx:id="buttonClose" mnemonicParsing="false" onMouseClicked="#close" prefHeight="24.0" prefWidth="24.0" text="" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+              <GridPane.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
+              </GridPane.margin>
+            </Button>
+            <Button fx:id="buttonMaximize" mnemonicParsing="false" onMouseClicked="#maximize" prefHeight="24.0" prefWidth="24.0" text="" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.margin="$x1" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+            <Button fx:id="buttonMinimize" mnemonicParsing="false" onMouseClicked="#minimize" prefHeight="24.0" prefWidth="24.0" text="" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x1" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+            <Label fx:id="windowTitle" text="" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.margin="$x1" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+          </children>
+          <columnConstraints>
+            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
+            <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="-1.0" prefWidth="-1.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="-1.0" prefWidth="-1.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="-1.0" prefWidth="-1.0" />
+          </columnConstraints>
+          <padding>
+            <Insets right="10.0" />
+          </padding>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+      </top>
+    </BorderPane>
+  </children>
+  <stylesheets>
+    <URL value="@Window.css" />
+  </stylesheets>
+</AnchorPane>
