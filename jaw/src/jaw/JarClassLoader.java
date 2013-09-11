@@ -75,7 +75,7 @@ public class JarClassLoader extends ClassLoader {
 
   public Class findClass(String className) {
   	
-		byte classByte[];  
+  	byte classByte[];
 		Class<?> result = null;  
 		
 		// Checks in cached classes

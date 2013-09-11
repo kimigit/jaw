@@ -4,11 +4,21 @@
 
 package jaw;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 public class Commons {
 	
@@ -65,6 +75,13 @@ public class Commons {
     }
     
     return hex;
+	}
+	
+	public static Document stringToXmlDocument(String xml) throws Exception {
+		return
+			DocumentBuilderFactory.newInstance()
+			.newDocumentBuilder()
+			.parse(new InputSource(new StringReader(xml)));
 	}
 	
 }

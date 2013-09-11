@@ -32,7 +32,7 @@ public class Site {
 	protected Listener myListener;
 	protected Window myWindow;
 	protected JarClassLoader myUrlClassLoader;
-	protected Pane hostPanel;
+	protected BorderPane hostPanel;
 	
 	public Site(String appPath, Window w) {
 
@@ -45,7 +45,7 @@ public class Site {
   		
   		new JarClassLoader(appPath)
   			.loadClass("app.Main")
-  			.getConstructor(IListener.class, Pane.class)
+  			.getConstructor(IListener.class, BorderPane.class)
   			.newInstance(this.myListener, this.hostPanel);
   		
 		} catch (Exception e) {

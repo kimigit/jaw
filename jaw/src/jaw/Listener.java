@@ -16,9 +16,18 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.LinkedHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import org.w3c.dom.Document;
+
+import jaw.privileged.StringToXml;
+import jaw.privileged.UrlFetcher;
 
 public class Listener implements IListener {
 
@@ -29,42 +38,59 @@ public class Listener implements IListener {
 	}
 	
 	@Override
-	public String httpGet(String url) {
-		Changeable<String> result = new Changeable<String>("");
-		
-		try {
-			
-			Thread t = new Thread(new jaw.privileged.UrlFetcher(url, result));
-			t.start();
-			t.join();
-			
+	public String httpGet(String url, LinkedHashMap<String, String> query) {
+		ExecutorService service;
+    Future<String>  task;
+    String result = null;
+
+    service = Executors.newFixedThreadPool(1);        
+    task    = service.submit(new UrlFetcher(url, query));
+
+    try {
+			result = task.get();
 		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
-			return result.toString();
+			return result;
 		}
 	}
 
 	@Override
-	public String httpPost(String url, LinkedHashMap<String, String> data) {
-		Changeable<String> result = new Changeable<String>("");
-		
-		try {
-			
-			Thread t = new Thread(new jaw.privileged.UrlFetcher(url, data, result));
-			t.start();
-			t.join();
-			
+	public String httpPost(String url, LinkedHashMap<String, String> query, LinkedHashMap<String, String> data) {
+		ExecutorService service;
+    Future<String>  task;
+    String result = null;
+
+    service = Executors.newFixedThreadPool(1);        
+    task    = service.submit(new UrlFetcher(url, query, data));
+
+    try {
+			result = task.get();
 		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
-			return result.toString();
+			return result;
 		}
 	}
 
 	@Override
 	public void setTitle(String title) {
 		this.mySite.setTitle(title);
+	}
+
+	@Override
+	public Document stringToXmlDocument(String xml) {
+		ExecutorService service;
+    Future<Document>  task;
+    Document result = null;
+
+    service = Executors.newFixedThreadPool(1);        
+    task    = service.submit(new StringToXml(xml));
+
+    try {
+			result = task.get();
+		} catch (Exception e) {
+		} finally {
+			return result;
+		}
 	}
 	
 }

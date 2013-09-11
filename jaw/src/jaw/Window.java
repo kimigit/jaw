@@ -37,7 +37,6 @@ public class Window {
   @FXML protected TextField address;
   @FXML protected GridPane titlePanel;
   @FXML protected BorderPane appPanel;
-  @FXML protected Pane hostPanel;
   @FXML protected Button buttonBack;
   @FXML protected Button buttonSettings;
   @FXML protected Button buttonClose;
@@ -46,6 +45,7 @@ public class Window {
   
   protected RecentHistory myRecentHistory;
   protected Stage myStage;
+  protected BorderPane hostPanel;
   
   private void addDraggableNode(final Node node) {
   	node.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -147,17 +147,15 @@ public class Window {
 		
 		if (appPath == null) return;
 		
-		this.appPanel.getChildren().clear();
-		this.appPanel.setStyle("-fx-background-color: magenta;");
+		this.hostPanel = new BorderPane();
 		
-		this.hostPanel = new Pane();
-		this.hostPanel.setStyle("-fx-background-color: orange;");
+		this.appPanel.getChildren().clear();
 		this.appPanel.setCenter(this.hostPanel);
 		
 		new Site(appPath, this);
 	}
 	
-	public Pane getHostPanel() {
+	public BorderPane getHostPanel() {
 		return this.hostPanel;
 	}
 	

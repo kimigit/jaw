@@ -19,7 +19,7 @@
           <top>
             <GridPane id="toolbarPanel" alignment="CENTER" cache="true" cacheHint="QUALITY" disable="false" gridLinesVisible="false" hgap="0.0" prefHeight="-1.0" prefWidth="-1.0" styleClass="toolbarPane" vgap="0.0" BorderPane.alignment="CENTER">
               <children>
-                <TextField fx:id="address" maxWidth="-1.0" minHeight="-1.0" onAction="#gotoUrl" prefHeight="24.0" prefWidth="-1.0" text="http://localhost/fxapp/hello.jar" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                <TextField fx:id="address" maxWidth="-1.0" minHeight="-1.0" onAction="#gotoUrl" prefHeight="24.0" prefWidth="-1.0" text="http://localhost/fxapp/dbpedia.jar" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                   <GridPane.margin>
                     <Insets />
                   </GridPane.margin>
