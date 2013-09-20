@@ -16,7 +16,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.security.ProtectionDomain;
+import java.util.Hashtable;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
@@ -28,10 +31,10 @@ import javax.swing.JPanel;
 
 public class Site {
 	
-	protected Listener myListener;
 	protected Window myWindow;
-	protected JarClassLoader myUrlClassLoader;
-	protected BorderPane hostPanel;
+	protected JarClassLoader myClassLoader;
+	protected Hashtable<String, Class<?>> myJarClasses;
+	protected Hashtable<String, Object> myJarResources;
 	protected URL myUrl;
 	
 	public Site(String url, String appPath, Window w) {
@@ -39,16 +42,19 @@ public class Site {
 		try {
   		
 			this.myUrl = new URL(url);
-			this.myListener = new Listener(this);
 	  	this.myWindow = w;
-	  	this.hostPanel = this.myWindow.getHostPanel();
+	  	this.myClassLoader = new JarClassLoader(appPath);
 	  	
-  		new JarClassLoader(appPath)
-  			.loadClass("app.Main")
-  			.getConstructor(IListener.class, BorderPane.class)
-  			.newInstance(this.myListener, this.hostPanel);
+	  	this.myClassLoader.loadAll();
+	  	this.myJarClasses = this.myClassLoader.getJarClasses();
+	  	this.myJarResources = this.myClassLoader.getJarResources();
+	  	
+	  	this.myJarClasses.get("app.Main")
+				.getConstructor(IListener.class, BorderPane.class)
+				.newInstance(new Listener(this), this.myWindow.getHostPanel());
   		
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
   }
 	
@@ -58,6 +64,14 @@ public class Site {
 	
 	public URL getUrl() {
 		return this.myUrl;
+	}
+	
+	public void gotoUrl(String url) {
+		this.myWindow.gotoUrl(url);
+	}
+	
+	public Object getJarResource(String fileName) {
+		return this.myJarResources.get(fileName);
 	}
 	
 }

@@ -21,12 +21,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import javafx.scene.image.Image;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.json.simple.JSONObject;
 import org.w3c.dom.Document;
 
+import jaw.privileged.ImageDownloader;
 import jaw.privileged.LocalStorage;
 import jaw.privileged.StringToJson;
 import jaw.privileged.StringToXml;
@@ -145,6 +148,38 @@ public class Listener implements IListener {
 		} finally {
 			return result;
 		}
+	}
+	
+	@Override
+	public Image getImage(String url) {
+		ExecutorService service;
+    Future<Image>  task;
+    Image result = null;
+
+    service = Executors.newFixedThreadPool(1);        
+    task    = service.submit(new ImageDownloader(url));
+
+    try {
+			result = task.get();
+		} catch (Exception e) {
+		} finally {
+			return result;
+		}
+	}
+
+	@Override
+	public URL getUrl() {
+		return this.mySite.getUrl();
+	}
+
+	@Override
+	public void gotoUrl(String url) {
+		this.mySite.gotoUrl(url);
+	}
+
+	@Override
+	public Object getResource(String resourceName) {
+		return this.mySite.getJarResource(resourceName);
 	}
 	
 }

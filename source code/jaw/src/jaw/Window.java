@@ -3,6 +3,9 @@
 package jaw;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -13,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -21,6 +25,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import jaw.privileged.ImageDownloader;
 
 
 public class Window {
@@ -74,7 +80,6 @@ public class Window {
   protected void initialize() {
   	this.myRecentHistory = new RecentHistory();
   	Window.Drag.X = Window.Drag.Y = 0;
-  	
   }
   
   public void ready() {
@@ -87,12 +92,18 @@ public class Window {
   	return this.myStage != null;
   }
   
+  // Maximize when double-clicked on JAW title bar
+  @FXML
+  void handleTitleBarClick(MouseEvent event) {
+  	if (event.getButton().equals(MouseButton.PRIMARY))
+  		if (event.getClickCount() == 2) {
+  			System.out.println("Double clicked");
+  		}
+  }
+  
   @FXML
   protected void gotoUrl(ActionEvent event) {
-  	this.myRecentHistory.push(this.address.getText());
-  	this.buttonBack.setDisable(this.myRecentHistory.count() < 2);
-  	
-  	loadApp(downloadUrl(this.address.getText()));
+  	this.gotoUrl(this.address.getText());
   }
   
   @FXML
@@ -128,18 +139,21 @@ public class Window {
 	protected String downloadUrl(String url) {
 		
 		try {
-			
-			String appHash = Commons.randomString(64);
-			
-			Thread t = new Thread(new jaw.privileged.UrlDownloader(url, appHash));
-			t.start();
-			t.join();
+			ExecutorService service;
+	    Future<String>  task;
+	    String result = null;
+	
+	    service = Executors.newFixedThreadPool(1);        
+	    task    = service.submit(new jaw.privileged.UrlDownloader(url));
+
+	    result = task.get();
 	    
-			return Commons.appHash.containsKey(appHash) ? Commons.appHash.get(appHash) : null;
+	    return result;
 	    
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			return null;
+			
 		}
     
 	}
@@ -199,6 +213,19 @@ public class Window {
 	  		this.myStage.setHeight(height);
 	  	}
   	} catch (Exception e) {
+  	}
+	}
+	
+	public void gotoUrl(String url) {
+		this.address.setText(url);
+		
+  	this.myRecentHistory.push(url);
+  	this.buttonBack.setDisable(this.myRecentHistory.count() < 2);
+  	
+  	try {
+  		loadApp(downloadUrl(url));
+  	} catch (Exception e) {
+  		System.out.println("Some errors loading this app...");
   	}
 	}
 }

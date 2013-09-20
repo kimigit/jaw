@@ -19,7 +19,7 @@
           <top>
             <GridPane id="toolbarPanel" alignment="CENTER" cache="true" cacheHint="QUALITY" disable="false" gridLinesVisible="false" hgap="0.0" prefHeight="-1.0" prefWidth="-1.0" styleClass="toolbarPane" vgap="0.0" BorderPane.alignment="CENTER">
               <children>
-                <TextField fx:id="address" maxWidth="-1.0" minHeight="-1.0" onAction="#gotoUrl" prefHeight="24.0" prefWidth="-1.0" text="http://localhost/fxapp/dbpedia.jar" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                <TextField fx:id="address" maxWidth="-1.0" minHeight="-1.0" onAction="#gotoUrl" prefHeight="24.0" prefWidth="-1.0" text="http://localhost/fxapp/jawbrowser.jar" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                   <GridPane.margin>
                     <Insets />
                   </GridPane.margin>
@@ -43,7 +43,7 @@
         </BorderPane>
       </center>
       <top>
-        <GridPane fx:id="titlePanel" gridLinesVisible="false" prefHeight="-1.0" prefWidth="-1.0" BorderPane.alignment="CENTER_RIGHT">
+        <GridPane fx:id="titlePanel" gridLinesVisible="false" onMouseClicked="#handleTitleBarClick" prefHeight="-1.0" prefWidth="-1.0" BorderPane.alignment="CENTER_RIGHT">
           <children>
             <Button fx:id="buttonClose" mnemonicParsing="false" onMouseClicked="#close" prefHeight="24.0" prefWidth="24.0" text="" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
               <GridPane.margin>

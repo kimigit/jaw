@@ -28,8 +28,6 @@ public class Commons {
 	 */
 	public static ArrayList<Long> allowedThreads = new ArrayList<Long>();
 	
-	public static HashMap<String, String> appHash = new HashMap<String, String>();
-	
 	public static final String TITLE_SHORT = "JAW";
 	public static final String TITLE_LONG = "Just A Window";
 	
@@ -101,9 +99,6 @@ public class Commons {
 
 			return true;
 		} catch (Exception e) {
-			
-			e.printStackTrace();
-			
 			return false;
 		}
 	}

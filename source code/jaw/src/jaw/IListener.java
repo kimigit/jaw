@@ -5,7 +5,10 @@
 
 package jaw;
 
+import java.net.URL;
 import java.util.LinkedHashMap;
+
+import javafx.scene.image.Image;
 
 import org.json.simple.JSONObject;
 
@@ -37,4 +40,18 @@ public interface IListener {
 	
 	// Get value of key from local storage
 	public Object retrieve(String key);
+	
+	// Download a picture from the web and return a new javafx.scene.image.Image 
+	public Image getImage(String url);
+	
+	// Return the app URL
+	public URL getUrl();
+	
+	// Change Window URL and load the new app
+	public void gotoUrl(String url);
+	
+	/* Get a resource from app jar file.
+	 * This function does not return Java classes. 
+	 */
+	public Object getResource(String resourceName);
 }

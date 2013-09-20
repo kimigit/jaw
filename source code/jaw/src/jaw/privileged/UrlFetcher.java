@@ -24,7 +24,7 @@ import jaw.Commons;
 public class UrlFetcher implements Callable<String> {
 	
 	protected static enum Method { GET, POST };
-	protected static final String USER_AGENT = "JAW";
+	protected static final String USER_AGENT = "JAW (beta); github.com/kimigit/jaw";
 	
 	protected String myUrl;
 	protected LinkedHashMap<String, String> myUrlQuery;
@@ -81,7 +81,7 @@ public class UrlFetcher implements Callable<String> {
 		for (Map.Entry<String, String> someData : this.myPostData.entrySet())
 			data += URLEncoder.encode(someData.getKey(), "UTF-8") + "=" + URLEncoder.encode(someData.getValue(), "UTF-8") + "&";
  
-		return this.myUrl.substring(0, this.myUrl.length() - 1);
+		return data.substring(0, data.length() - 1);
 	}
 	
 	protected String get() throws Exception {
@@ -111,8 +111,11 @@ public class UrlFetcher implements Callable<String> {
 		}
 		/**** END SSL CERT ****/
 		
+		URL aUrl = new URL(this.myUrl);
+		if (!aUrl.getProtocol().toLowerCase().equals("http"))
+			return "";
 		
-		HttpURLConnection con = (HttpURLConnection) (new URL(this.myUrl).openConnection());
+		HttpURLConnection con = (HttpURLConnection) (aUrl.openConnection());
 		con.setRequestMethod("GET");
 		con.setRequestProperty("User-Agent", UrlFetcher.USER_AGENT);
 		con.setRequestProperty("charset", "UTF-8");
@@ -133,7 +136,11 @@ public class UrlFetcher implements Callable<String> {
 	
 	protected String post() throws Exception {
  
-		HttpURLConnection con = (HttpURLConnection) (new URL(this.myUrl).openConnection());
+		URL aUrl = new URL(this.myUrl);
+		if (!aUrl.getProtocol().toLowerCase().equals("http"))
+			return "";
+		
+		HttpURLConnection con = (HttpURLConnection) (aUrl.openConnection());
  
 		con.setRequestMethod("POST");
 		con.setRequestProperty("User-Agent", UrlFetcher.USER_AGENT);
