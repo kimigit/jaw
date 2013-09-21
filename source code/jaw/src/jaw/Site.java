@@ -8,6 +8,7 @@ import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,8 +21,10 @@ import java.security.ProtectionDomain;
 import java.util.Hashtable;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -46,11 +49,12 @@ public class Site {
 	  	this.myClassLoader = new JarClassLoader(appPath);
 	  	
 	  	this.myClassLoader.loadAll();
+	  	
 	  	this.myJarClasses = this.myClassLoader.getJarClasses();
 	  	this.myJarResources = this.myClassLoader.getJarResources();
 	  	
 	  	this.myJarClasses.get("app.Main")
-				.getConstructor(IListener.class, BorderPane.class)
+	  		.getConstructor(IListener.class, BorderPane.class)
 				.newInstance(new Listener(this), this.myWindow.getHostPanel());
   		
 		} catch (Exception e) {
@@ -72,6 +76,23 @@ public class Site {
 	
 	public Object getJarResource(String fileName) {
 		return this.myJarResources.get(fileName);
+	}
+	
+	public Object getFxmlRoot(String resourceName, Object controller, String [] styleSheets) {
+		try {
+			
+			FXMLLoader aFXMLLoader = new FXMLLoader();
+			aFXMLLoader.setController(controller);
+			Parent sceneRoot = (Parent) aFXMLLoader.load(new ByteArrayInputStream((byte[])this.myJarResources.get(resourceName)));
+			
+			for (String aCss : styleSheets)
+				;//sceneRoot.getStyleClass().add(new String((byte[])this.myJarResources.get(aCss)));
+			
+			return sceneRoot;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 }

@@ -25,7 +25,7 @@ public class LocalStorage implements Callable<Object> {
 	protected static enum Action { STORE, RETRIEVE };
 	
 	// All data is stored here
-	protected static final String PATH = "ls/";
+	protected static final String PATH = "localstorage/";
 	
 	// File where data is actually stored in
 	protected static final String FILE_NAME = "data";

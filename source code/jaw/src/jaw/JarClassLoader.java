@@ -11,12 +11,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 public class JarClassLoader extends ClassLoader {
 	
@@ -36,7 +39,7 @@ public class JarClassLoader extends ClassLoader {
 
   public JarClassLoader(String jarFile) throws IOException {
   	super(JarClassLoader.class.getClassLoader());
-
+  	
   	this.jarClasses = new Hashtable<String, Class<?>>();
   	this.jarResources = new Hashtable<String, Object>();
   	this.myUntrustedPackages = new ArrayList<String>();
@@ -104,21 +107,8 @@ public class JarClassLoader extends ClassLoader {
       return classByte;
   		
   	} catch (Exception e) {
+  		e.printStackTrace();
   		return null;
-  	}
-  }
-  
-  // Load FXML from String
-  protected void loadFXML(String fileName) {
-  	try {
-  		
-	  	this.jarResources.put(
-	  		fileName,
-	  		new FXMLLoader().load(new ByteArrayInputStream(this.loadResource(fileName)))
-	  	);
-	  	
-  	} catch (Exception e) {
-  		
   	}
   }
   
@@ -170,7 +160,7 @@ public class JarClassLoader extends ClassLoader {
       while (-1 != nextValue) {  
 	      byteStream.write(nextValue);  
 	      nextValue = is.read();  
-      }  
+      }
 
       classByte = byteStream.toByteArray();
       result = defineClass(className, classByte, 0, classByte.length, null);
@@ -180,6 +170,7 @@ public class JarClassLoader extends ClassLoader {
       return result;
       
     } catch (Exception e) {
+    	e.printStackTrace();
     	return null;  
     }
 	}
@@ -195,23 +186,29 @@ public class JarClassLoader extends ClassLoader {
     	entryName = ((JarEntry) jarEntries.nextElement()).getName();
     	
     	// Only load if in "app" package
-    	if (entryName.indexOf("app/") == 0) {
-    		
+    	if (entryName.indexOf("app/") == 0)
     		try {
 	    		fileName = entryName.substring(0, entryName.lastIndexOf('.'));
 	    		fileExtension = entryName.substring(entryName.lastIndexOf('.')).toLowerCase();
+
+	    		switch (fileExtension) {
 	    		
-	    		// Check if this is a Java class, i.e. a file that ends with ".class"
-	    		if (fileExtension.equals(".class"))
+	    		case ".class":
 	    			try { this.loadClass(fileName.replace('/', '.')); } catch (Exception e) {}
+	    			break;
 	    		
-	    		if (fileExtension.equals(".fxml"))
-	    			try { this.loadFXML(entryName); } catch (Exception e) {}
+	    		case ".css":
+	    		case ".fxml":
+	    		case ".txt":
+	    		case ".xml":
+	    			try { this.jarResources.put(entryName, this.loadResource(entryName)); } catch (Exception e) {}
+	    			break;
+	    			
+	    		}
 	    		
     		} catch (Exception e) {
     			// Bad fileName or fileExtension
     		}
-    	}
     }
   }
   

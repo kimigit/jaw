@@ -54,4 +54,6 @@ public interface IListener {
 	 * This function does not return Java classes. 
 	 */
 	public Object getResource(String resourceName);
+	
+	public Object getFxmlRoot(String resourceName, Object controller, String [] styleSheets);
 }

@@ -181,5 +181,10 @@ public class Listener implements IListener {
 	public Object getResource(String resourceName) {
 		return this.mySite.getJarResource(resourceName);
 	}
+
+	@Override
+	public Object getFxmlRoot(String resourceName, Object controller, String [] styleSheets) {
+		return this.mySite.getFxmlRoot(resourceName, controller, styleSheets);
+	}
 	
 }

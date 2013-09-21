@@ -30,10 +30,11 @@ public class Main extends Application {
 		
 		Commons.allowedThreads.add(Thread.currentThread().getId());
 		
-		System.setSecurityManager(new Sandbox());
+		//System.setSecurityManager(new Sandbox());
 		
 		launch(args);
 	}
+	
 
 	@Override
 	public void start(Stage stage) throws Exception {

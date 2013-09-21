@@ -13,6 +13,15 @@
 	-fx-cursor: hand;
 }
 
+#buttonSettings {
+	-fx-background-image: url("images/settings.png");
+	-fx-background-size: 24px;
+	-fx-background-position: 0;
+	-fx-background-repeat: no-repeat;
+	-fx-background-color: transparent;
+	-fx-cursor: hand;
+}
+
 #buttonClose {
 	-fx-background-image: url("images/close.png");
 	-fx-background-size: 24px;

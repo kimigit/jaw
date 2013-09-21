@@ -96,9 +96,8 @@ public class Window {
   @FXML
   void handleTitleBarClick(MouseEvent event) {
   	if (event.getButton().equals(MouseButton.PRIMARY))
-  		if (event.getClickCount() == 2) {
-  			System.out.println("Double clicked");
-  		}
+  		if (event.getClickCount() == 2)
+  			this.maximize();
   }
   
   @FXML
@@ -110,7 +109,7 @@ public class Window {
   void goBack(MouseEvent event) {
   	String previousAddress = this.myRecentHistory.pop();
   	this.buttonBack.setDisable(this.myRecentHistory.count() < 2);
-  	loadApp(downloadUrl(previousAddress));
+  	this.gotoUrl(previousAddress);
   }
   
   @FXML
