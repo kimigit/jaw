@@ -64,22 +64,19 @@ public class RecentHistory {
 		this.addressCount++;
 	}
 	
-	/* The last address is always the current open application. For this reason to
+	/* The last address is always the currently open application. For this reason to
 	 * get the previous address we need to pop out the second to last element in the
 	 * queue.
 	 */
 	public String pop() {
 		if (this.addressCount < 2) return null;
 		
-		Address previous = this.myLastAddress.getPrevious();
-		String address = previous.getAddress();
-		previous.setNext(null);
-		
-		this.myLastAddress = previous;
+		this.myLastAddress = this.myLastAddress.getPrevious();
+		this.myLastAddress.setNext(null);
 		
 		this.addressCount--;
 		
-		return address;
+		return this.myLastAddress.getAddress();
 	}
 	
 	public int count() {

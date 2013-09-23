@@ -112,26 +112,38 @@ public class UrlFetcher implements Callable<String> {
 		/**** END SSL CERT ****/
 		
 		URL aUrl = new URL(this.myUrl);
-		if (!aUrl.getProtocol().toLowerCase().equals("http"))
+		
+		switch (aUrl.getProtocol().toLowerCase()) {
+		case "http":
+		case "https":
+			break;
+		default:
 			return "";
+		}
 		
-		HttpURLConnection con = (HttpURLConnection) (aUrl.openConnection());
-		con.setRequestMethod("GET");
-		con.setRequestProperty("User-Agent", UrlFetcher.USER_AGENT);
-		con.setRequestProperty("charset", "UTF-8");
- 
-		int responseCode = con.getResponseCode();
-		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		
-		String inputLine;
-		StringBuffer response = new StringBuffer();
- 
-		while ((inputLine = in.readLine()) != null)
-			response.append(inputLine);
-		
-		in.close();
-		
-		return response.toString();
+		try {
+			
+			HttpURLConnection con = (HttpURLConnection) (aUrl.openConnection());
+			con.setRequestMethod("GET");
+			con.setRequestProperty("User-Agent", UrlFetcher.USER_AGENT);
+			con.setRequestProperty("charset", "UTF-8");
+	 
+			int responseCode = con.getResponseCode();
+			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+	 
+			while ((inputLine = in.readLine()) != null)
+				response.append(inputLine);
+			
+			in.close();
+			
+			return response.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	protected String post() throws Exception {

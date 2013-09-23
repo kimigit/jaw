@@ -1,6 +1,7 @@
 /* This is the FXML controller for Window.fxml
  */
 package jaw;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
@@ -15,8 +16,10 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -48,9 +51,15 @@ public class Window {
   @FXML protected Button buttonClose;
   @FXML protected Button buttonMaximize;
   @FXML protected Label windowTitle;
+  @FXML protected ImageView pageLoadingGif;
   
   protected RecentHistory myRecentHistory;
   protected Stage myStage;
+  
+  // This Pane contains hostPanel to allow page scrolling
+  protected ScrollPane hostScrollPanel;
+  
+  // This will passed to the app which can use it to add UI components
   protected BorderPane hostPanel;
   
   // This is used to allow the window's title bar to be dragged around
@@ -161,10 +170,15 @@ public class Window {
 		
 		if (appPath == null) return;
 		
-		this.hostPanel = new BorderPane();
-		
 		this.appPanel.getChildren().clear();
-		this.appPanel.setCenter(this.hostPanel);
+		this.hostPanel = new BorderPane();
+		this.hostScrollPanel = new ScrollPane();
+		
+		this.hostScrollPanel.setContent(this.hostPanel);
+		this.hostScrollPanel.setFitToWidth(true);
+		this.hostScrollPanel.setFitToHeight(true);
+		
+		this.appPanel.setCenter(this.hostScrollPanel);
 		
 		new Site(this.address.getText(), appPath, this);
 	}
@@ -216,6 +230,9 @@ public class Window {
 	}
 	
 	public void gotoUrl(String url) {
+		this.pageLoadingGif.setVisible(true);
+		
+		url = Commons.normalizeUrl(url);
 		this.address.setText(url);
 		
   	this.myRecentHistory.push(url);
@@ -225,6 +242,8 @@ public class Window {
   		loadApp(downloadUrl(url));
   	} catch (Exception e) {
   		System.out.println("Some errors loading this app...");
+  	} finally {
+  		this.pageLoadingGif.setVisible(false);
   	}
 	}
 }

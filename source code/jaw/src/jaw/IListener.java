@@ -6,9 +6,11 @@
 package jaw;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import javafx.scene.image.Image;
+import javafx.scene.web.WebView;
 
 import org.json.simple.JSONObject;
 
@@ -41,6 +43,9 @@ public interface IListener {
 	// Get value of key from local storage
 	public Object retrieve(String key);
 	
+	// Get all stored key/value pairs
+	public HashMap<String, String> retrieveAll();
+	
 	// Download a picture from the web and return a new javafx.scene.image.Image 
 	public Image getImage(String url);
 	
@@ -56,4 +61,6 @@ public interface IListener {
 	public Object getResource(String resourceName);
 	
 	public Object getFxmlRoot(String resourceName, Object controller, String [] styleSheets);
+	
+	public WebView getAWebview(String url);
 }

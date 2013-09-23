@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.math.BigInteger;
+import java.net.URL;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,12 +36,26 @@ public class Commons {
 	 * 
 	 */
 	public static String normalizeUrl(String url) {
+		
+		String protocol = null;
 		url = url.trim();
 		
-		if (url.toLowerCase().indexOf("http://") != 0)
-			url = "http://" + url;
-		
-		return url;
+		try {
+			
+			// This line throws an exception if url doesn't have a protocol
+			protocol = new URL(url).getProtocol();
+			
+			switch (protocol.toLowerCase()) {
+			case "http":
+			case "https":
+				return url;
+			default:
+				throw new Exception("Not a supported protocol: " + protocol);
+			}
+			
+		} catch (Exception e) {
+			return "http://" + url;
+		}
 	}
 	
 	// Generate a random alphanumeric string

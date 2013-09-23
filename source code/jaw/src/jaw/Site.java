@@ -58,7 +58,7 @@ public class Site {
 				.newInstance(new Listener(this), this.myWindow.getHostPanel());
   		
 		} catch (Exception e) {
-			e.printStackTrace();
+			// Some problem initializing the app... Is the jar valid?
 		}
   }
 	
@@ -85,8 +85,9 @@ public class Site {
 			aFXMLLoader.setController(controller);
 			Parent sceneRoot = (Parent) aFXMLLoader.load(new ByteArrayInputStream((byte[])this.myJarResources.get(resourceName)));
 			
-			for (String aCss : styleSheets)
-				;//sceneRoot.getStyleClass().add(new String((byte[])this.myJarResources.get(aCss)));
+			if (styleSheets != null)
+				for (String aCss : styleSheets)
+					;//sceneRoot.getStyleClass().add(new String((byte[])this.myJarResources.get(aCss)));
 			
 			return sceneRoot;
 		} catch (Exception e) {

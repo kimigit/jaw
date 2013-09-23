@@ -4,6 +4,7 @@
 <?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
@@ -19,13 +20,12 @@
           <top>
             <GridPane id="toolbarPanel" alignment="CENTER" cache="true" cacheHint="QUALITY" disable="false" gridLinesVisible="false" hgap="0.0" maxWidth="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" styleClass="toolbarPane" vgap="0.0" BorderPane.alignment="CENTER">
               <children>
-                <TextField fx:id="address" maxWidth="-1.0" minHeight="-1.0" onAction="#gotoUrl" prefHeight="24.0" prefWidth="-1.0" text="http://localhost/fxapp/jawbrowser.jar" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                <TextField fx:id="address" maxWidth="-1.0" minHeight="-1.0" onAction="#gotoUrl" prefHeight="24.0" prefWidth="-1.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                   <GridPane.margin>
                     <Insets />
                   </GridPane.margin>
                 </TextField>
                 <Button fx:id="buttonBack" disable="true" mnemonicParsing="false" onMouseClicked="#goBack" prefHeight="24.0" prefWidth="24.0" text="" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
-                <Button fx:id="buttonSettings" id="buttonSettings" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#openSettings" text="Settings" visible="false" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
                 <Button fx:id="buttonSettings" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" text="" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
               </children>
               <columnConstraints>
@@ -44,29 +44,38 @@
         </BorderPane>
       </center>
       <top>
-        <GridPane fx:id="titlePanel" gridLinesVisible="false" onMouseClicked="#handleTitleBarClick" prefHeight="-1.0" prefWidth="-1.0" BorderPane.alignment="CENTER_RIGHT">
+        <GridPane fx:id="titlePanel" gridLinesVisible="false" onMouseClicked="#handleTitleBarClick" prefHeight="-1.0" prefWidth="-1.0" visible="true" BorderPane.alignment="CENTER_RIGHT">
           <children>
-            <Button fx:id="buttonClose" mnemonicParsing="false" onMouseClicked="#close" prefHeight="24.0" prefWidth="24.0" text="" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+            <Button fx:id="buttonClose" mnemonicParsing="false" onMouseClicked="#close" prefHeight="24.0" prefWidth="24.0" text="" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
               <GridPane.margin>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
               </GridPane.margin>
             </Button>
-            <Button fx:id="buttonMaximize" mnemonicParsing="false" onMouseClicked="#maximize" prefHeight="24.0" prefWidth="24.0" text="" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.margin="$x1" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
-            <Button fx:id="buttonMinimize" mnemonicParsing="false" onMouseClicked="#minimize" prefHeight="24.0" prefWidth="24.0" text="" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x1" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
-            <Label fx:id="windowTitle" text="" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.margin="$x1" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+            <Button fx:id="buttonMaximize" mnemonicParsing="false" onMouseClicked="#maximize" prefHeight="24.0" prefWidth="24.0" text="" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.margin="$x1" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+            <Button fx:id="buttonMinimize" mnemonicParsing="false" onMouseClicked="#minimize" prefHeight="24.0" prefWidth="24.0" text="" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.margin="$x1" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+            <Label fx:id="windowTitle" text="" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.margin="$x1" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+            <ImageView fx:id="pageLoadingGif" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+              <image>
+                <Image url="@images/loading.gif" />
+              </image>
+            </ImageView>
           </children>
           <columnConstraints>
+            <ColumnConstraints halignment="LEFT" hgrow="NEVER" />
             <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
             <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="-1.0" prefWidth="-1.0" />
             <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="-1.0" prefWidth="-1.0" />
             <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="-1.0" prefWidth="-1.0" />
           </columnConstraints>
           <padding>
-            <Insets right="10.0" />
+            <Insets left="10.0" right="10.0" />
           </padding>
           <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           </rowConstraints>
+          <BorderPane.margin>
+            <Insets />
+          </BorderPane.margin>
         </GridPane>
       </top>
     </BorderPane>

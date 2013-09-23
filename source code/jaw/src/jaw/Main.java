@@ -2,6 +2,9 @@ package jaw;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javafx.application.Application;
 
@@ -19,6 +22,17 @@ public class Main extends Application {
 	
 	protected final static String FXML = "Window.fxml";
 	
+	/* WebView objects can be created only within the JavaFX thread. This is probably
+	 * a bug that will be fixed, but until then here is a static method to return a
+	 * new WebView.
+	 */
+	public static WebView getAWebview(String url) {
+		WebView w = new WebView();
+		w.getEngine().load(url);
+		
+		return w;
+	}
+	
 	/**
 	 * @param args
 	 */
@@ -30,11 +44,10 @@ public class Main extends Application {
 		
 		Commons.allowedThreads.add(Thread.currentThread().getId());
 		
-		//System.setSecurityManager(new Sandbox());
+		System.setSecurityManager(new Sandbox());
 		
 		launch(args);
 	}
-	
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -60,9 +73,10 @@ public class Main extends Application {
 			stage.initStyle(StageStyle.UNDECORATED);
 	    stage.setScene(scene);
 	    
-	    // fxmlController.maximize();
+	    fxmlController.maximize();
 	    fxmlController.ready();
 	    stage.show();
+	    fxmlController.gotoUrl("http://jawbrowser.com");
 	    
 		} catch (Exception e) {
 		}

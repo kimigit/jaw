@@ -4,27 +4,15 @@
 
 package jaw;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import javafx.scene.image.Image;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javafx.scene.web.WebView;
 
 import org.json.simple.JSONObject;
 import org.w3c.dom.Document;
@@ -149,6 +137,24 @@ public class Listener implements IListener {
 			return result;
 		}
 	}
+
+
+	@Override
+	public HashMap<String, String> retrieveAll() {
+		ExecutorService service;
+    Future<Object>  task;
+    HashMap<String, String> result = null;
+
+    service = Executors.newFixedThreadPool(1);        
+    task    = service.submit(new LocalStorage(this.mySite.getUrl()));
+
+    try {
+			result = (HashMap<String, String>) task.get();
+		} catch (Exception e) {
+		} finally {
+			return result;
+		}
+	}
 	
 	@Override
 	public Image getImage(String url) {
@@ -185,6 +191,11 @@ public class Listener implements IListener {
 	@Override
 	public Object getFxmlRoot(String resourceName, Object controller, String [] styleSheets) {
 		return this.mySite.getFxmlRoot(resourceName, controller, styleSheets);
+	}
+
+	@Override
+	public WebView getAWebview(String url) {
+		return Main.getAWebview(url);
 	}
 	
 }

@@ -11,6 +11,10 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
 
 import org.json.simple.JSONObject;
@@ -22,7 +26,7 @@ public class LocalStorage implements Callable<Object> {
 	/***** STATIC *****/
 	
 	
-	protected static enum Action { STORE, RETRIEVE };
+	protected static enum Action { STORE, RETRIEVE, RETRIEVE_ALL };
 	
 	// All data is stored here
 	protected static final String PATH = "localstorage/";
@@ -78,6 +82,22 @@ public class LocalStorage implements Callable<Object> {
     }
 	}
 	
+	// Read the data file and parse it into a HashMap
+	protected static HashMap<String, String> loadHashmap(URL appUrl) {
+		try {
+			JSONObject o = LocalStorage.loadJson(appUrl);
+			Set<String> entries = o.keySet();
+			HashMap<String, String> map = new HashMap<String, String>();
+			
+			for (String key : entries)
+				map.put(key, (String) o.get(key));
+			
+			return map;
+    } catch (Exception e) {
+    	return new HashMap<String, String>();
+    }
+	}
+	
 	// Take a JSON object, serialize it and store it into file
 	protected static boolean writeJson(URL appUrl, JSONObject json) {
 		try {
@@ -107,6 +127,11 @@ public class LocalStorage implements Callable<Object> {
 		return LocalStorage.loadJson(appUrl).get(key);
 	}
 	
+	// Retrieve all key/value paris
+	public static HashMap<String, String> getAll(URL appUrl) {
+		return LocalStorage.loadHashmap(appUrl);
+	}
+	
 	// Store a value
 	public static boolean set(URL appUrl, String key, Object value) {
 		try {
@@ -128,14 +153,22 @@ public class LocalStorage implements Callable<Object> {
 	
 	/***** INSTANCE *****/
 	
-	protected LocalStorage.Action myAction;
+	protected Action myAction;
 	protected URL appUrl;
 	protected String key;
 	protected Object value;
-	
+
 	// Constructor for retrieving a value
+	public LocalStorage(URL appUrl) {
+		this.myAction	= Action.RETRIEVE_ALL;
+		this.appUrl		= appUrl;
+		this.key			= null;
+		this.value		= null;
+	}
+	
+	// Constructor for retrieving all key/value pairs
 	public LocalStorage(URL appUrl, String key) {
-		this.myAction	= LocalStorage.Action.RETRIEVE;
+		this.myAction	= Action.RETRIEVE;
 		this.appUrl		= appUrl;
 		this.key			= key;
 		this.value		= null;
@@ -143,7 +176,7 @@ public class LocalStorage implements Callable<Object> {
 	
 	// Constructor for storing a value
 	public LocalStorage(URL appUrl, String key, Object value) {
-		this.myAction	= LocalStorage.Action.STORE;
+		this.myAction	= Action.STORE;
 		this.appUrl		= appUrl;
 		this.key			= key;
 		this.value		= value;
@@ -159,16 +192,27 @@ public class LocalStorage implements Callable<Object> {
 		
 		try {
 			
-			// Return the "value" for "key"
-			if (this.myAction == LocalStorage.Action.RETRIEVE)
-				result = LocalStorage.get(this.appUrl, this.key);
+			switch (this.myAction) {
 			
-			// Return boolean if write was successful
-			if (this.myAction == LocalStorage.Action.STORE)
+			// Return the "value" for "key"
+			case RETRIEVE:
+				result = LocalStorage.get(this.appUrl, this.key);
+				break;
+			
+			// Get all key/value pairs
+			case RETRIEVE_ALL:
+				result = LocalStorage.getAll(this.appUrl);
+				break;
+			
+			// Store a key/value pair
+			case STORE:
 				result = LocalStorage.set(this.appUrl, this.key, this.value);
+				break;
+			}
+			
+			return result;
 			
 		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
 			Commons.allowedThreads.remove(threadId);
 		}
